@@ -1,14 +1,18 @@
 package com.jarkendar.stosik;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jarkendar.stosik.ItemFragment.OnListFragmentInteractionListener;
 import com.jarkendar.stosik.dummy.DummyContent.DummyItem;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -18,12 +22,14 @@ import java.util.List;
  */
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Task> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private Context context;
 
-    public ItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public ItemRecyclerViewAdapter(List<Task> items, OnListFragmentInteractionListener listener, Context context) {
         mValues = items;
         mListener = listener;
+        this.context = context;
     }
 
     @Override
@@ -34,10 +40,20 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mTitle.setText(mValues.get(position).getTitle());
+        holder.mPriority.setText(mValues.get(position).getPriority());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        holder.mDate.setText(simpleDateFormat.format(mValues.get(position).getEndDate()));
+        holder.mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Click task = "+position, Toast.LENGTH_SHORT).show();
+                mListener.onListFragmentInteraction(holder.mItem);
+                //todo delete refresh
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,20 +74,26 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mTitle;
+        public final TextView mPriority;
+        public final TextView mDate;
+        public final Button mCancelButton;
+        public Task mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mTitle = (TextView) view.findViewById(R.id.textView_title);
+            mPriority = (TextView) view.findViewById(R.id.textView_priority);
+            mDate = (TextView) view.findViewById(R.id.textView_end_date);
+            mCancelButton = (Button) view.findViewById(R.id.button_end);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return "ViewHolder{" +
+                    "mItem=" + mItem +
+                    '}';
         }
     }
 }

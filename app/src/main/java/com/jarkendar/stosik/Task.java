@@ -28,6 +28,15 @@ public class Task {
     }
 
     @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", priority=" + priority +
+                ", endDate=" + endDate +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
