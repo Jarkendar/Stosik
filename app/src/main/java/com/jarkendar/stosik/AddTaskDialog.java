@@ -10,16 +10,19 @@ import android.widget.EditText;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Observer;
 
 public class AddTaskDialog extends Dialog implements View.OnClickListener {
 
     private Context context;
     private EditText titleEdit, priorityEdit, endDateEdit;
     private Button addButton, cancelButton;
+    private Observer observer;
 
-    public AddTaskDialog(Context context) {
+    public AddTaskDialog(Context context, Observer observer) {
         super(context);
         this.context = context;
+        this.observer = observer;
     }
 
     @Override
@@ -44,7 +47,8 @@ public class AddTaskDialog extends Dialog implements View.OnClickListener {
                 DatabaseLackey databaseLackey = new DatabaseLackey(context);
                 try {
                     databaseLackey.insertTask(databaseLackey.getWritableDatabase(), new Task(titleEdit.getText().toString(), Integer.parseInt(priorityEdit.getText().toString()), simpleDateFormat.parse(endDateEdit.getText().toString().trim())));
-                } catch (ParseException e) {
+                    observer.update(null, null);
+                } catch (ParseException | NumberFormatException e) {
                     e.printStackTrace();
                 }
                 break;

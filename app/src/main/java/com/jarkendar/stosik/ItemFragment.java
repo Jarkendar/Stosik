@@ -19,6 +19,8 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -53,16 +55,27 @@ public class ItemFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            context = view.getContext();
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ItemRecyclerViewAdapter(new LinkedList<Task>(), mListener, context));
+
+            recyclerView.setAdapter(new ItemRecyclerViewAdapter(readTaskList(), mListener, context));
         }
         return view;
+    }
+
+    public void refreshAdapter(){
+        ((ItemRecyclerViewAdapter)recyclerView.getAdapter()).setTasks(readTaskList());
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    private LinkedList<Task> readTaskList(){
+        DatabaseLackey databaseLackey = new DatabaseLackey(getContext());
+        return databaseLackey.selectAllNotEndedTasks(databaseLackey.getReadableDatabase());
     }
 
 

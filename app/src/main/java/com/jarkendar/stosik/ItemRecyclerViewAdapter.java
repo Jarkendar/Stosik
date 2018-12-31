@@ -16,14 +16,18 @@ import java.util.List;
 
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Task> mValues;
+    private List<Task> tasks;
     private final OnListFragmentInteractionListener mListener;
     private Context context;
 
     public ItemRecyclerViewAdapter(List<Task> items, OnListFragmentInteractionListener listener, Context context) {
-        mValues = items;
+        tasks = items;
         mListener = listener;
         this.context = context;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
@@ -35,17 +39,16 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mItem = mValues.get(position);
-        holder.mTitle.setText(mValues.get(position).getTitle());
-        holder.mPriority.setText(mValues.get(position).getPriority());
+        holder.mItem = tasks.get(position);
+        holder.mTitle.setText(tasks.get(position).getTitle());
+        holder.mPriority.setText(tasks.get(position).getPriority()+"");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-        holder.mDate.setText(simpleDateFormat.format(mValues.get(position).getEndDate()));
+        holder.mDate.setText(simpleDateFormat.format(tasks.get(position).getEndDate()));
         holder.mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Click task = "+position, Toast.LENGTH_SHORT).show();
                 mListener.onListFragmentInteraction(holder.mItem);
-                //todo delete refresh
             }
         });
 
@@ -63,7 +66,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return tasks.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
