@@ -47,7 +47,6 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
         holder.mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Click task = "+position, Toast.LENGTH_SHORT).show();
                 removeFromDatabase(holder.mItem);
                 mListener.onListFragmentInteraction(holder.mItem);
             }

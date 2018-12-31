@@ -70,11 +70,11 @@ public class DatabaseLackey extends SQLiteOpenHelper {
     public void updateEndTask(SQLiteDatabase sqLiteDatabase, Task task){
         ContentValues contentValues = new ContentValues();
         contentValues.put(FIELD_ENDED, TRUE);
-        sqLiteDatabase.update(TABLE_TASKS, contentValues, FIELD_END_DATE + "=?", new String[] {task.getEndDate().getTime() + ""});
+        sqLiteDatabase.update(TABLE_TASKS, contentValues, FIELD_TITLE+"=? AND "+FIELD_PRIORITY+"=? AND "+FIELD_END_DATE + "=?", new String[] {task.getTitle(), task.getPriority()+"",task.getEndDate().getTime() + ""});
     }
 
     public LinkedList<Task> selectAllNotEndedTasks(SQLiteDatabase sqLiteDatabase){
-        Cursor cursor = sqLiteDatabase.query(TABLE_TASKS, new String[] {FIELD_TITLE, FIELD_PRIORITY, FIELD_END_DATE, FIELD_ENDED}, FIELD_ENDED+"="+FALSE, null, null, null, FIELD_END_DATE + " DESC");
+        Cursor cursor = sqLiteDatabase.query(TABLE_TASKS, new String[] {FIELD_TITLE, FIELD_PRIORITY, FIELD_END_DATE, FIELD_ENDED}, FIELD_ENDED+"="+FALSE, null, null, null, FIELD_END_DATE + " DESC, "+FIELD_PRIORITY+" ASC");
         LinkedList<Task> tasks = new LinkedList<>();
         while (cursor.moveToNext()){
             String title = cursor.getString(cursor.getColumnIndex(FIELD_TITLE));

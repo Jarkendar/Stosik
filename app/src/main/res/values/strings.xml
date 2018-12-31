@@ -4,7 +4,7 @@
 
     <string name="title">Tytuł</string>
     <string name="priority">Priorytet</string>
-    <string name="end_date">Data zakończenia</string>
+    <string name="end_date">Zakończenie</string>
     <string name="add">Dodaj</string>
     <string name="cancel">Anuluj</string>
 </resources>
