@@ -10,17 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jarkendar.stosik.dummy.DummyContent;
-import com.jarkendar.stosik.dummy.DummyContent.DummyItem;
+import java.util.LinkedList;
 
-import java.util.List;
-
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class ItemFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -69,7 +60,7 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new ItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new ItemRecyclerViewAdapter(new LinkedList<Task>(), mListener, context));
         }
         return view;
     }
@@ -104,6 +95,6 @@ public class ItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Task item);
     }
 }

@@ -10,16 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jarkendar.stosik.ItemFragment.OnListFragmentInteractionListener;
-import com.jarkendar.stosik.dummy.DummyContent.DummyItem;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<Task> mValues;
