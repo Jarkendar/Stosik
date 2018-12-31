@@ -48,9 +48,15 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Click task = "+position, Toast.LENGTH_SHORT).show();
+                removeFromDatabase(holder.mItem);
                 mListener.onListFragmentInteraction(holder.mItem);
             }
         });
+    }
+
+    private void removeFromDatabase(Task task){
+        DatabaseLackey databaseLackey = new DatabaseLackey(context);
+        databaseLackey.updateEndTask(databaseLackey.getReadableDatabase(), task);
     }
 
     @Override
